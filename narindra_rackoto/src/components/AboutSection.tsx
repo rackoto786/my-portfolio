@@ -73,7 +73,7 @@ const AboutSection = () => {
               <div className="absolute inset-2 rounded-full ring-2 ring-primary/60 shadow-[0_0_30px_hsl(217_90%_55%/0.4)]" />
               {/* Photo */}
               <img
-                src="/profile.png"
+                src="/profile-photo.png"
                 alt="Narindra Rackoto"
                 className="absolute inset-3 w-[calc(100%-1.5rem)] h-[calc(100%-1.5rem)] object-cover rounded-full"
               />

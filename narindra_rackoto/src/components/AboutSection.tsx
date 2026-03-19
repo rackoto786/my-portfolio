@@ -52,53 +52,90 @@ const AboutSection = () => {
           <h2 className="font-display text-3xl md:text-4xl font-bold gradient-text">À propos</h2>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
-          {/* Text block with line reveal */}
+        {/* Main content — photo + bio */}
+        <div className="grid md:grid-cols-3 gap-12 items-center mb-16">
+
+          {/* ── Profile photo ── */}
           <motion.div
-            initial={{ opacity: 0, x: -40 }}
+            initial={{ opacity: 0, scale: 0.85, y: 30 }}
+            animate={inView ? { opacity: 1, scale: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.15, type: "spring", stiffness: 120 }}
+            className="flex justify-center"
+          >
+            <div className="relative w-52 h-52 md:w-64 md:h-64">
+              {/* Spinning outer ring */}
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+                className="absolute inset-0 rounded-full border-2 border-dashed border-primary/40"
+              />
+              {/* Static glowing ring */}
+              <div className="absolute inset-2 rounded-full ring-2 ring-primary/60 shadow-[0_0_30px_hsl(217_90%_55%/0.4)]" />
+              {/* Photo */}
+              <img
+                src="/profile.png"
+                alt="Narindra Rackoto"
+                className="absolute inset-3 w-[calc(100%-1.5rem)] h-[calc(100%-1.5rem)] object-cover rounded-full"
+              />
+              {/* Blue overlay glow */}
+              <motion.div
+                animate={{ opacity: [0.15, 0.3, 0.15] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute inset-3 rounded-full bg-primary/10 pointer-events-none"
+              />
+            </div>
+          </motion.div>
+
+          {/* ── Bio text ── */}
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="relative"
+            transition={{ duration: 0.7, delay: 0.25 }}
+            className="md:col-span-2 relative"
           >
             {/* Animated left accent bar */}
             <motion.div
               initial={{ scaleY: 0 }}
               animate={inView ? { scaleY: 1 } : {}}
-              transition={{ duration: 0.6, delay: 0.3 }}
+              transition={{ duration: 0.6, delay: 0.35 }}
               className="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-full origin-top"
             />
-            <div className="pl-6 space-y-5">
+            <div className="pl-6 space-y-4">
+              <div>
+                <h3 className="font-display text-2xl font-bold text-foreground mb-1">Narindra Rackoto</h3>
+                <p className="font-heading text-sm text-primary tracking-widest uppercase">Web Developer · AI Engineer</p>
+              </div>
               <p className="font-body text-lg text-muted-foreground leading-relaxed">
                 Développeur polyvalent et passionné, je combine expertise en développement web et intelligence artificielle pour créer des solutions numériques qui repoussent les limites du possible.
               </p>
               <p className="font-body text-lg text-muted-foreground leading-relaxed">
-                Mon objectif : concevoir des applications modernes, intelligentes et évolutives qui apportent une réelle valeur ajoutée. De la conception au déploiement, je m'investis dans chaque projet avec rigueur et créativité.
+                Mon objectif : concevoir des applications modernes, intelligentes et évolutives qui apportent une réelle valeur ajoutée.
               </p>
             </div>
           </motion.div>
+        </div>
 
-          {/* Highlight cards with stagger */}
-          <div className="grid grid-cols-2 gap-4">
-            {highlights.map((item, i) => (
+        {/* Highlight cards */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+          {highlights.map((item, i) => (
+            <motion.div
+              key={item.label}
+              initial={{ opacity: 0, y: 30, scale: 0.95 }}
+              animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
+              transition={{ duration: 0.5, delay: 0.4 + i * 0.1 }}
+              whileHover={{ scale: 1.04, y: -4 }}
+              className="glass rounded-xl p-5 hover:neon-glow transition-all duration-300 group cursor-default"
+            >
               <motion.div
-                key={item.label}
-                initial={{ opacity: 0, y: 30, scale: 0.95 }}
-                animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
-                transition={{ duration: 0.5, delay: 0.3 + i * 0.12 }}
-                whileHover={{ scale: 1.04, y: -4 }}
-                className="glass rounded-xl p-5 hover:neon-glow transition-all duration-300 group cursor-default"
+                animate={{ rotate: [0, 5, -5, 0] }}
+                transition={{ duration: 4, repeat: Infinity, delay: i * 0.5 }}
               >
-                <motion.div
-                  animate={{ rotate: [0, 5, -5, 0] }}
-                  transition={{ duration: 4, repeat: Infinity, delay: i * 0.5 }}
-                >
-                  <item.icon className="w-8 h-8 text-primary mb-3 group-hover:scale-110 transition-transform duration-300" />
-                </motion.div>
-                <h3 className="font-heading text-sm font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">{item.label}</h3>
-                <p className="font-body text-xs text-muted-foreground">{item.desc}</p>
+                <item.icon className="w-8 h-8 text-primary mb-3 group-hover:scale-110 transition-transform duration-300" />
               </motion.div>
-            ))}
-          </div>
+              <h3 className="font-heading text-sm font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">{item.label}</h3>
+              <p className="font-body text-xs text-muted-foreground">{item.desc}</p>
+            </motion.div>
+          ))}
         </div>
 
         {/* Stats row */}
